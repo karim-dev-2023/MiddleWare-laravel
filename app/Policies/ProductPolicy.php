@@ -37,7 +37,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-         return $user->id === $product->user_id;
+        return $user->id === $product->user_id;
     }
 
     /**
@@ -62,5 +62,15 @@ class ProductPolicy
     public function forceDelete(User $user, Product $product): bool
     {
         return false;
+    }
+
+
+    public function before(User $user, string $ability): ?bool
+    {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
+        return null;
     }
 }
